@@ -1,0 +1,8 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/package-lock.json": true,
+    "**/package.json": true,
+    "out/**": true // Don't search the TypeScript "out" folder
+  }
+}
