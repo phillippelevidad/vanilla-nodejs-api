@@ -7,6 +7,8 @@ const server = http.createServer((req, res) => {
   } else if (req.method === "GET" && req.url.match(/^\/api\/products\/\d+$/)) {
     const id = parseInt(req.url.split("/")[3], 10);
     productsController.get(req, res, id);
+  } else if (req.method === "POST" && req.url === "/api/products") {
+    productsController.create(req, res);
   } else {
     res.writeHead(404, { "Content-Type": "text/json" });
     res.end(JSON.stringify({ message: "Route not found" }));
