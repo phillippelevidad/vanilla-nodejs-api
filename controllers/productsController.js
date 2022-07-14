@@ -1,4 +1,5 @@
 const productsRepository = require("../data/productsRepository");
+const { getJsonBody } = require("../utils/getJsonBody");
 
 async function list(req, res) {
   try {
@@ -27,19 +28,10 @@ async function get(req, res, id) {
   }
 }
 
-async function create(req, res, id) {
+async function create(req, res) {
   try {
-    const newProduct = {
-      id: 999,
-      name: "Product 999",
-      price: 99,
-      description: "This is product 999",
-      image: "https://picsum.photos/200/300",
-      quantity: 1,
-      total: 10,
-    };
-
-    const product = await productsRepository.create(newProduct);
+    const body = await getJsonBody(req);
+    const product = await productsRepository.create(body);
     res.writeHead(201, {
       "Content-Type": "text/json",
       Location: `/api/products/${product.id}`,

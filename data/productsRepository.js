@@ -11,9 +11,20 @@ function find(id) {
 
 function create(product) {
   return new Promise((resolve) => {
-    products.push(product);
+    const { name, price, description, image, quantity, total } = product;
+    const newProduct = {
+      id: products.length + 1,
+      name,
+      price,
+      description,
+      image,
+      quantity,
+      total,
+    };
+
+    products.push(newProduct);
     writeJsonToFile("./data/products.json", products);
-    resolve(product);
+    resolve(newProduct);
   });
 }
 
