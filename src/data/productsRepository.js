@@ -1,6 +1,8 @@
 import products from "./products.json" assert { type: "json" };
 import { writeJsonToFile } from "../utils/writeJsonToFile.js";
 
+const FILE_PATH = "./src/data/products.json";
+
 export function list() {
   return Promise.resolve(products);
 }
@@ -17,7 +19,7 @@ export function create(product) {
     };
 
     products.push(newProduct);
-    writeJsonToFile("./data/products.json", products);
+    writeJsonToFile(FILE_PATH, products);
     resolve(newProduct);
   });
 }
@@ -26,7 +28,7 @@ export function update(product) {
   return new Promise((resolve) => {
     const index = products.findIndex((p) => p.id === product.id);
     products[index] = product;
-    writeJsonToFile("./data/products.json", products);
+    writeJsonToFile(FILE_PATH, products);
     resolve(product);
   });
 }
@@ -36,7 +38,7 @@ export function deleteProduct(id) {
     const productsWithoutDeleted = products.filter(
       (product) => product.id !== id
     );
-    writeJsonToFile("./data/products.json", productsWithoutDeleted);
+    writeJsonToFile(FILE_PATH, productsWithoutDeleted);
     resolve(null);
   });
 }
