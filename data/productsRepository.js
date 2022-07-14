@@ -1,5 +1,5 @@
 const products = require("./products.json");
-const { writeJsonToFile } = require("./writeJsonToFile");
+const { writeJsonToFile } = require("../utils/writeJsonToFile");
 
 function list() {
   return Promise.resolve(products);
