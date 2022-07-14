@@ -20,8 +20,17 @@ async function get(req, res, id) {
 }
 
 async function create(req, res) {
-  const body = await getJsonBody(req);
-  const product = await productsRepository.create(body);
+  const { name, price, description, image, quantity, total } =
+    await getJsonBody(req);
+  const product = await productsRepository.create({
+    name,
+    price,
+    description,
+    image,
+    quantity,
+    total,
+  });
+
   res.writeHead(201, {
     "Content-Type": "text/json",
     Location: `/api/products/${product.id}`,
@@ -29,8 +38,33 @@ async function create(req, res) {
   res.end(JSON.stringify(product));
 }
 
+async function update(req, res, id) {
+  const targetProduct = await productsRepository.find(id);
+  if (!targetProduct) {
+    res.writeHead(404, { "Content-Type": "text/json" });
+    res.end(JSON.stringify({ message: "Product not found" }));
+    return;
+  }
+
+  const { name, price, description, image, quantity, total } =
+    await getJsonBody(req);
+  const updatedProduct = await productsRepository.update({
+    id,
+    name: name ?? targetProduct.name,
+    price: price ?? targetProduct.price,
+    description: description ?? targetProduct.description,
+    image: image ?? targetProduct.image,
+    quantity: quantity ?? targetProduct.quantity,
+    total: total ?? targetProduct.total,
+  });
+
+  res.writeHead(201, { "Content-Type": "text/json" });
+  res.end(JSON.stringify(updatedProduct));
+}
+
 module.exports = {
   list,
   get,
   create,
+  update,
 };

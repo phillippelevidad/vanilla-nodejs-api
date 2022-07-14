@@ -11,15 +11,9 @@ function find(id) {
 
 function create(product) {
   return new Promise((resolve) => {
-    const { name, price, description, image, quantity, total } = product;
     const newProduct = {
+      ...product,
       id: products.length + 1,
-      name,
-      price,
-      description,
-      image,
-      quantity,
-      total,
     };
 
     products.push(newProduct);
@@ -28,8 +22,18 @@ function create(product) {
   });
 }
 
+function update(product) {
+  return new Promise((resolve) => {
+    const index = products.findIndex((p) => p.id === product.id);
+    products[index] = product;
+    writeJsonToFile("./data/products.json", products);
+    resolve(product);
+  });
+}
+
 module.exports = {
   list,
   find,
   create,
+  update,
 };
