@@ -31,9 +31,20 @@ function update(product) {
   });
 }
 
+function deleteProduct(id) {
+  return new Promise((resolve) => {
+    const productsWithoutDeleted = products.filter(
+      (product) => product.id !== id
+    );
+    writeJsonToFile("./data/products.json", productsWithoutDeleted);
+    resolve(null);
+  });
+}
+
 module.exports = {
   list,
   find,
   create,
   update,
+  deleteProduct,
 };

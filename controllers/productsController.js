@@ -62,9 +62,24 @@ async function update(req, res, id) {
   res.end(JSON.stringify(updatedProduct));
 }
 
+async function deleteProduct(req, res, id) {
+  const targetProduct = await productsRepository.find(id);
+  if (!targetProduct) {
+    res.writeHead(404, { "Content-Type": "text/json" });
+    res.end(JSON.stringify({ message: "Product not found" }));
+    return;
+  }
+
+  await productsRepository.deleteProduct(id);
+
+  res.writeHead(204);
+  res.end();
+}
+
 module.exports = {
   list,
   get,
   create,
   update,
+  deleteProduct,
 };
