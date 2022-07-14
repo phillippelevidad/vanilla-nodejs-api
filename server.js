@@ -1,12 +1,10 @@
-const http = require("http");
+import { createServer } from "http";
+import { tryHandleProductsRequest } from "./controllers/tryHandleProductsRequest.js";
 
-const {
-  tryHandleProductsRequest,
-} = require("./controllers/tryHandleProductsRequest");
-
-const server = http.createServer((req, res) => {
+const server = createServer(async (req, res) => {
   try {
-    if (!tryHandleProductsRequest(req, res)) {
+    const isHandled = await tryHandleProductsRequest(req, res);
+    if (!isHandled) {
       res.writeHead(404, { "Content-Type": "text/json" });
       res.end(JSON.stringify({ message: "Route not found" }));
     }

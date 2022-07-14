@@ -1,15 +1,15 @@
-const products = require("./products.json");
-const { writeJsonToFile } = require("../utils/writeJsonToFile");
+import products from "./products.json" assert { type: "json" };
+import { writeJsonToFile } from "../utils/writeJsonToFile.js";
 
-function list() {
+export function list() {
   return Promise.resolve(products);
 }
 
-function find(id) {
+export function find(id) {
   return Promise.resolve(products.find((product) => product.id === id));
 }
 
-function create(product) {
+export function create(product) {
   return new Promise((resolve) => {
     const newProduct = {
       ...product,
@@ -22,7 +22,7 @@ function create(product) {
   });
 }
 
-function update(product) {
+export function update(product) {
   return new Promise((resolve) => {
     const index = products.findIndex((p) => p.id === product.id);
     products[index] = product;
@@ -31,7 +31,7 @@ function update(product) {
   });
 }
 
-function deleteProduct(id) {
+export function deleteProduct(id) {
   return new Promise((resolve) => {
     const productsWithoutDeleted = products.filter(
       (product) => product.id !== id
@@ -40,11 +40,3 @@ function deleteProduct(id) {
     resolve(null);
   });
 }
-
-module.exports = {
-  list,
-  find,
-  create,
-  update,
-  deleteProduct,
-};

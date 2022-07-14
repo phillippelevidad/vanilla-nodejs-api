@@ -1,13 +1,13 @@
-const productsRepository = require("../data/productsRepository");
-const { getJsonBody } = require("../utils/getJsonBody");
+import * as productsRepository from "../data/productsRepository.js";
+import { getJsonBody } from "../utils/getJsonBody.js";
 
-async function list(req, res) {
+export async function list(req, res) {
   const products = await productsRepository.list();
   res.writeHead(200, { "Content-Type": "text/json" });
   res.end(JSON.stringify(products));
 }
 
-async function get(req, res, id) {
+export async function get(req, res, id) {
   const product = await productsRepository.find(id);
   if (product) {
     res.writeHead(200, { "Content-Type": "text/json" });
@@ -19,7 +19,7 @@ async function get(req, res, id) {
   res.end(JSON.stringify({ message: "Product not found" }));
 }
 
-async function create(req, res) {
+export async function create(req, res) {
   const { name, price, description, image, quantity, total } =
     await getJsonBody(req);
   const product = await productsRepository.create({
@@ -38,7 +38,7 @@ async function create(req, res) {
   res.end(JSON.stringify(product));
 }
 
-async function update(req, res, id) {
+export async function update(req, res, id) {
   const targetProduct = await productsRepository.find(id);
   if (!targetProduct) {
     res.writeHead(404, { "Content-Type": "text/json" });
@@ -62,7 +62,7 @@ async function update(req, res, id) {
   res.end(JSON.stringify(updatedProduct));
 }
 
-async function deleteProduct(req, res, id) {
+export async function deleteProduct(req, res, id) {
   const targetProduct = await productsRepository.find(id);
   if (!targetProduct) {
     res.writeHead(404, { "Content-Type": "text/json" });
@@ -75,11 +75,3 @@ async function deleteProduct(req, res, id) {
   res.writeHead(204);
   res.end();
 }
-
-module.exports = {
-  list,
-  get,
-  create,
-  update,
-  deleteProduct,
-};

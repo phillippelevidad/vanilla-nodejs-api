@@ -1,9 +1,5 @@
-const fs = require("fs");
+import { writeFileSync } from "fs";
 
-function writeJsonToFile(file, json) {
-  fs.writeFileSync(file, JSON.stringify(json), "utf8");
+export function writeJsonToFile(file, json) {
+  writeFileSync(file, JSON.stringify(json), "utf8");
 }
-
-module.exports = {
-  writeJsonToFile,
-};
